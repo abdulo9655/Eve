@@ -1,0 +1,2817 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<title>ÉVARYNX — Intelligent Spaces</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:#f5f3ee;
+  color:#151515;
+  overflow-x:hidden;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:#111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  transition:
+    opacity .9s ease,
+    transform 1.1s cubic-bezier(.77,0,.18,1);
+}
+
+#intro.hide{
+  opacity:0;
+  transform:scale(1.12);
+  pointer-events:none;
+}
+
+.intro-wrap{
+  text-align:center;
+  perspective:1000px;
+}
+
+.intro-logo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:0;
+  white-space:nowrap;
+  transform-origin:center;
+}
+
+.intro-letter{
+  display:inline-block;
+  font-family:Inter,sans-serif;
+  font-size:clamp(45px,11vw,125px);
+  font-weight:800;
+  letter-spacing:-.09em;
+  opacity:0;
+  transform:
+    translateY(100px)
+    rotateX(-70deg)
+    scale(.65);
+  filter:blur(8px);
+
+  animation:
+    letterIn .65s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.intro-letter:nth-child(1){animation-delay:.05s}
+.intro-letter:nth-child(2){animation-delay:.18s}
+.intro-letter:nth-child(3){animation-delay:.31s}
+.intro-letter:nth-child(4){animation-delay:.44s}
+.intro-letter:nth-child(5){animation-delay:.57s}
+.intro-letter:nth-child(6){animation-delay:.70s}
+.intro-letter:nth-child(7){animation-delay:.83s}
+
+@keyframes letterIn{
+  to{
+    opacity:1;
+    transform:
+      translateY(0)
+      rotateX(0)
+      scale(1);
+    filter:blur(0);
+  }
+}
+
+.intro-sub{
+  margin-top:25px;
+  font-size:11px;
+  letter-spacing:.38em;
+  text-transform:uppercase;
+  opacity:0;
+  animation:fadeUp .8s 1.25s forwards;
+}
+
+.intro-line{
+  width:0;
+  height:1px;
+  background:rgba(255,255,255,.6);
+  margin:18px auto 0;
+  animation:lineGrow 1s 1.35s forwards;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes lineGrow{
+  to{
+    width:180px;
+  }
+}
+
+.intro-logo.zoom{
+  animation:
+    introZoom 1s 0s cubic-bezier(.77,0,.18,1) forwards;
+}
+
+@keyframes introZoom{
+  to{
+    transform:scale(8);
+    opacity:0;
+    filter:blur(12px);
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  padding:18px 5%;
+  transition:.3s;
+}
+
+header.scrolled{
+  background:rgba(245,243,238,.86);
+  backdrop-filter:blur(20px);
+  box-shadow:0 1px 0 rgba(0,0,0,.08);
+}
+
+.nav{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-weight:800;
+  font-size:23px;
+  letter-spacing:-.07em;
+  text-decoration:none;
+  color:#111;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
+
+.nav-links a{
+  color:#222;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+  position:relative;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:1px;
+  background:#111;
+  transition:.3s;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+.lang{
+  border:1px solid #ccc;
+  background:transparent;
+  border-radius:30px;
+  padding:8px 12px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.mobile-menu{
+  display:none;
+  border:0;
+  background:none;
+  font-size:25px;
+  cursor:pointer;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  min-height:100vh;
+  padding:150px 5% 90px;
+  display:flex;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:650px;
+  height:650px;
+  right:-250px;
+  top:-180px;
+  border-radius:50%;
+  background:rgba(220,214,200,.55);
+  filter:blur(2px);
+}
+
+.hero-inner{
+  max-width:1400px;
+  width:100%;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:80px;
+  align-items:center;
+  position:relative;
+  z-index:2;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:25px;
+}
+
+.eyebrow span{
+  width:32px;
+  height:1px;
+  background:#111;
+}
+
+.hero h1{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(52px,7vw,105px);
+  line-height:.95;
+  font-weight:500;
+  letter-spacing:-.055em;
+  max-width:800px;
+}
+
+.hero h1 em{
+  font-style:normal;
+  font-family:Inter,sans-serif;
+  font-weight:800;
+}
+
+.hero-description{
+  margin-top:32px;
+  max-width:560px;
+  line-height:1.8;
+  color:#666;
+  font-size:15px;
+}
+
+.hero-actions{
+  margin-top:35px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:1px solid #111;
+  padding:14px 23px;
+  border-radius:999px;
+  text-decoration:none;
+  cursor:pointer;
+  transition:.3s;
+  font-size:13px;
+  font-weight:700;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.btn-dark{
+  background:#111;
+  color:white;
+}
+
+.btn-dark:hover{
+  background:#333;
+  transform:translateY(-2px);
+}
+
+.btn-light{
+  background:transparent;
+  color:#111;
+}
+
+.btn-light:hover{
+  background:#111;
+  color:#fff;
+}
+
+.hero-card{
+  height:540px;
+  border-radius:30px;
+  overflow:hidden;
+  position:relative;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.2),
+      rgba(0,0,0,.1)
+    ),
+    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85")
+    center/cover;
+  box-shadow:0 30px 70px rgba(0,0,0,.12);
+}
+
+.hero-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.48),
+    transparent 60%
+  );
+}
+
+.hero-card-content{
+  position:absolute;
+  bottom:28px;
+  left:28px;
+  right:28px;
+  z-index:2;
+  color:#fff;
+}
+
+.hero-card-content small{
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  font-size:10px;
+}
+
+.hero-card-content h3{
+  margin-top:8px;
+  font-size:27px;
+}
+
+/* =========================
+   NOTICE
+========================= */
+
+.notice{
+  background:#111;
+  color:#fff;
+  padding:14px 5%;
+  text-align:center;
+  font-size:12px;
+  letter-spacing:.04em;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+section{
+  padding:110px 5%;
+}
+
+.section-inner{
+  max-width:1400px;
+  margin:auto;
+}
+
+.section-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  margin-bottom:50px;
+}
+
+.section-heading h2{
+  font-family:"Playfair Display",serif;
+  font-weight:500;
+  font-size:clamp(38px,5vw,68px);
+  letter-spacing:-.05em;
+}
+
+.section-heading p{
+  max-width:420px;
+  color:#777;
+  font-size:14px;
+  line-height:1.8;
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.products{
+  background:#fff;
+}
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+.product{
+  background:#f7f6f3;
+  border-radius:22px;
+  overflow:hidden;
+  transition:.4s;
+  border:1px solid transparent;
+}
+
+.product:hover{
+  transform:translateY(-7px);
+  border-color:#ddd;
+  box-shadow:0 18px 40px rgba(0,0,0,.07);
+}
+
+.product-image{
+  height:280px;
+  overflow:hidden;
+  background:#ddd;
+}
+
+.product-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.6s;
+}
+
+.product:hover .product-image img{
+  transform:scale(1.06);
+}
+
+.product-info{
+  padding:22px;
+}
+
+.product-style{
+  font-size:10px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:#888;
+}
+
+.product-name{
+  margin-top:8px;
+  font-size:17px;
+  font-weight:700;
+}
+
+.product-description{
+  color:#777;
+  font-size:12px;
+  line-height:1.6;
+  margin-top:8px;
+  min-height:40px;
+}
+
+.product-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:18px;
+}
+
+.price{
+  font-weight:800;
+}
+
+.stock{
+  font-size:10px;
+  color:#777;
+}
+
+.shop-btn{
+  margin-top:15px;
+  width:100%;
+}
+
+/* =========================
+   STYLE
+========================= */
+
+.style-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.style-card{
+  min-height:430px;
+  border-radius:25px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  background-size:cover;
+  background-position:center;
+  transition:.5s;
+}
+
+.style-card:hover{
+  transform:scale(.985);
+}
+
+.style-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.72),
+    transparent 60%
+  );
+}
+
+.style-card:nth-child(1){
+  background-image:url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85");
+}
+
+.style-card:nth-child(2){
+  background-image:url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85");
+}
+
+.style-card:nth-child(3){
+  background-image:url("https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85");
+}
+
+.style-content{
+  position:absolute;
+  bottom:28px;
+  left:28px;
+  right:28px;
+  z-index:2;
+  color:#fff;
+}
+
+.style-content span{
+  font-size:10px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  opacity:.7;
+}
+
+.style-content h3{
+  margin-top:8px;
+  font-size:28px;
+}
+
+/* =========================
+   AI
+========================= */
+
+.ai-section{
+  background:#111;
+  color:#fff;
+}
+
+.ai-box{
+  max-width:1000px;
+  margin:auto;
+  text-align:center;
+}
+
+.ai-box .eyebrow{
+  justify-content:center;
+}
+
+.ai-box .eyebrow span{
+  background:#fff;
+}
+
+.ai-box h2{
+  font-family:"Playfair Display",serif;
+  font-weight:500;
+  font-size:clamp(42px,6vw,75px);
+  letter-spacing:-.05em;
+}
+
+.ai-box > p{
+  color:#aaa;
+  max-width:600px;
+  margin:22px auto 45px;
+  line-height:1.8;
+  font-size:14px;
+}
+
+.ai-form{
+  background:#1d1d1d;
+  border:1px solid #333;
+  padding:30px;
+  border-radius:25px;
+  text-align:left;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.field label{
+  display:block;
+  font-size:11px;
+  color:#aaa;
+  margin-bottom:8px;
+}
+
+.field select,
+.field input{
+  width:100%;
+  background:#111;
+  border:1px solid #444;
+  color:#fff;
+  border-radius:12px;
+  padding:13px;
+  outline:none;
+}
+
+.ai-submit{
+  width:100%;
+  margin-top:20px;
+  background:#fff;
+  color:#111;
+  border:0;
+}
+
+.ai-result{
+  display:none;
+  margin-top:20px;
+  padding:22px;
+  border-radius:16px;
+  background:#f5f3ee;
+  color:#111;
+  line-height:1.8;
+}
+
+.ai-result.show{
+  display:block;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+  background:#e7e3da;
+}
+
+.contact-box{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+}
+
+.contact h2{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(45px,6vw,80px);
+  line-height:1;
+  font-weight:500;
+  letter-spacing:-.05em;
+}
+
+.contact p{
+  color:#666;
+  line-height:1.8;
+  margin-top:20px;
+  max-width:500px;
+}
+
+.contact-card{
+  background:#fff;
+  padding:40px;
+  border-radius:25px;
+}
+
+.contact-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:18px 0;
+  border-bottom:1px solid #eee;
+}
+
+.contact-row:last-child{
+  border-bottom:0;
+}
+
+.contact-row span:first-child{
+  color:#888;
+  font-size:12px;
+}
+
+.contact-row strong{
+  font-size:14px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  background:#111;
+  color:#fff;
+  padding:60px 5% 30px;
+}
+
+.footer-inner{
+  max-width:1400px;
+  margin:auto;
+}
+
+.footer-top{
+  display:flex;
+  justify-content:space-between;
+  gap:30px;
+  padding-bottom:50px;
+}
+
+.footer-logo{
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:-.07em;
+}
+
+.footer-tagline{
+  color:#888;
+  margin-top:10px;
+  font-size:12px;
+}
+
+.footer-bottom{
+  padding-top:20px;
+  border-top:1px solid #292929;
+  color:#666;
+  font-size:11px;
+  display:flex;
+  justify-content:space-between;
+}
+
+/* =========================
+   ADMIN MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(12px);
+  z-index:9998;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:#f7f6f2;
+  width:min(900px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:25px;
+  padding:30px;
+  position:relative;
+}
+
+.close-modal{
+  position:absolute;
+  right:20px;
+  top:18px;
+  border:0;
+  background:none;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.modal-title{
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:25px;
+}
+
+.login-area{
+  max-width:420px;
+  margin:40px auto;
+}
+
+.login-area input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ccc;
+  border-radius:12px;
+  background:#fff;
+  outline:none;
+  margin-bottom:12px;
+}
+
+.admin-panel{
+  display:none;
+}
+
+.admin-form{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.admin-form .full{
+  grid-column:1/-1;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea{
+  width:100%;
+  border:1px solid #ccc;
+  border-radius:11px;
+  padding:12px;
+  background:#fff;
+  outline:none;
+}
+
+.admin-form textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.admin-list{
+  margin-top:30px;
+  display:grid;
+  gap:10px;
+}
+
+.admin-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  background:#fff;
+  border-radius:14px;
+  padding:15px;
+}
+
+.delete-btn{
+  border:0;
+  background:#111;
+  color:#fff;
+  border-radius:9px;
+  padding:8px 12px;
+  cursor:pointer;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1000px){
+
+  .hero-inner{
+    grid-template-columns:1fr;
+    gap:45px;
+  }
+
+  .hero-card{
+    height:480px;
+  }
+
+  .product-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .contact-box{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  header{
+    padding:16px 5%;
+  }
+
+  .nav-links{
+    display:none;
+    position:absolute;
+    top:65px;
+    left:5%;
+    right:5%;
+    background:rgba(245,243,238,.97);
+    padding:20px;
+    border-radius:18px;
+    flex-direction:column;
+    align-items:flex-start;
+    box-shadow:0 20px 40px rgba(0,0,0,.1);
+  }
+
+  .nav-links.open{
+    display:flex;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .hero{
+    padding-top:120px;
+  }
+
+  .hero h1{
+    font-size:54px;
+  }
+
+  .hero-card{
+    height:420px;
+  }
+
+  .product-grid{
+    grid-template-columns:1fr;
+  }
+
+  .style-grid{
+    grid-template-columns:1fr;
+  }
+
+  .style-card{
+    min-height:360px;
+  }
+
+  section{
+    padding:80px 5%;
+  }
+
+  .section-heading{
+    display:block;
+  }
+
+  .section-heading p{
+    margin-top:18px;
+  }
+
+  .footer-top{
+    display:block;
+  }
+
+  .footer-bottom{
+    display:block;
+    line-height:2;
+  }
+
+  .admin-form{
+    grid-template-columns:1fr;
+  }
+
+  .admin-form .full{
+    grid-column:auto;
+  }
+
+  .contact-card{
+    padding:25px;
+  }
+}
+
+/* =========================
+   LOADING STATE
+========================= */
+
+.page-loading{
+  opacity:0;
+  transform:translateY(10px);
+  transition:1s ease;
+}
+
+.page-loading.ready{
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<div id="intro">
+
+  <div class="intro-wrap">
+
+    <div class="intro-logo" id="introLogo">
+      <span class="intro-letter">É</span>
+      <span class="intro-letter">V</span>
+      <span class="intro-letter">A</span>
+      <span class="intro-letter">R</span>
+      <span class="intro-letter">Y</span>
+      <span class="intro-letter">N</span>
+      <span class="intro-letter">X</span>
+    </div>
+
+    <div class="intro-sub">
+      Intelligent Spaces · Distinctive Living
+    </div>
+
+    <div class="intro-line"></div>
+
+  </div>
+
+</div>
+
+
+<div id="site" class="page-loading">
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header id="header">
+
+  <div class="nav">
+
+    <a href="#home" class="logo">
+      ÉVARYNX
+    </a>
+
+    <div class="nav-links" id="navLinks">
+
+      <a href="#home" data-i18n="home">หน้าแรก</a>
+
+      <a href="#products" data-i18n="products">
+        สินค้า
+      </a>
+
+      <a href="#styles" data-i18n="styles">
+        สไตล์
+      </a>
+
+      <a href="#ai" data-i18n="ai">
+        AI Styling
+      </a>
+
+      <a href="#contact" data-i18n="contact">
+        ติดต่อ
+      </a>
+
+      <select class="lang" id="language" onchange="changeLang(this.value)">
+        <option value="th">TH</option>
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+        <option value="zh">中文</option>
+      </select>
+
+    </div>
+
+    <button class="mobile-menu" onclick="toggleMenu()">
+      ☰
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<main>
+
+<section class="hero" id="home">
+
+  <div class="hero-inner">
+
+    <div>
+
+      <div class="eyebrow">
+        <span></span>
+        AI HOME STYLING ASSISTANT
+      </div>
+
+      <h1>
+        Intelligent spaces.
+        <br>
+        <em>Distinctive living.</em>
+      </h1>
+
+      <p class="hero-description" data-i18n="heroDesc">
+        ÉVARYNX ช่วยคุณค้นหาสไตล์การแต่งบ้าน
+        และเลือกไอเทมที่เข้ากับพื้นที่ งบประมาณ
+        และความชอบของคุณ
+      </p>
+
+      <div class="hero-actions">
+
+        <a href="#ai" class="btn btn-dark" data-i18n="startAI">
+          เริ่มใช้ AI Styling
+        </a>
+
+        <a href="#products" class="btn btn-light" data-i18n="explore">
+          ดูสินค้า
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="hero-card">
+
+      <div class="hero-card-content">
+
+        <small>
+          ÉVARYNX / INTERIOR 01
+        </small>
+
+        <h3>
+          Quiet luxury,
+          designed intelligently.
+        </h3>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div class="notice" data-i18n="notice">
+  เว็บไซต์อยู่ระหว่างการพัฒนาและปรับปรุง แต่สามารถใช้งานได้ตามปกติ
+</div>
+
+
+<!-- =========================
+     PRODUCTS
+========================= -->
+
+<section class="products" id="products">
+
+  <div class="section-inner">
+
+    <div class="section-heading">
+
+      <div>
+        <div class="eyebrow">
+          <span></span>
+          CURATED OBJECTS
+        </div>
+
+        <h2 data-i18n="productsTitle">
+          Selected for your space.
+        </h2>
+      </div>
+
+      <p data-i18n="productsDesc">
+        ไอเทมที่คัดเลือกเพื่อช่วยเติมบรรยากาศ
+        ให้พื้นที่ของคุณมีเอกลักษณ์มากขึ้น
+      </p>
+
+    </div>
+
+
+    <div class="product-grid" id="productGrid"></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     STYLES
+========================= -->
+
+<section id="styles">
+
+  <div class="section-inner">
+
+    <div class="section-heading">
+
+      <div>
+
+        <div class="eyebrow">
+          <span></span>
+          STYLE DISCOVERY
+        </div>
+
+        <h2 data-i18n="styleTitle">
+          Find your atmosphere.
+        </h2>
+
+      </div>
+
+      <p data-i18n="styleDesc">
+        เลือกแนวทางที่ใกล้เคียงกับตัวคุณ
+        แล้วให้ ÉVARYNX ช่วยต่อยอด
+      </p>
+
+    </div>
+
+
+    <div class="style-grid">
+
+      <div class="style-card" onclick="selectStyle('Minimal')">
+
+        <div class="style-content">
+
+          <span>01 / STYLE</span>
+
+          <h3>
+            Minimal
+          </h3>
+
+        </div>
+
+      </div>
+
+
+      <div class="style-card" onclick="selectStyle('Japandi')">
+
+        <div class="style-content">
+
+          <span>02 / STYLE</span>
+
+          <h3>
+            Japandi
+          </h3>
+
+        </div>
+
+      </div>
+
+
+      <div class="style-card" onclick="selectStyle('Modern')">
+
+        <div class="style-content">
+
+          <span>03 / STYLE</span>
+
+          <h3>
+            Modern
+          </h3>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     AI STYLING
+========================= -->
+
+<section class="ai-section" id="ai">
+
+  <div class="section-inner">
+
+    <div class="ai-box">
+
+      <div class="eyebrow">
+        <span></span>
+        ÉVARYNX AI
+        <span></span>
+      </div>
+
+      <h2 data-i18n="aiTitle">
+        Your space.
+        <br>
+        Your rules.
+      </h2>
+
+      <p data-i18n="aiDesc">
+        บอกข้อมูลเกี่ยวกับพื้นที่ของคุณ
+        แล้วระบบจะช่วยสร้างแนวทางการแต่งห้อง
+        ให้เหมาะกับคุณ
+      </p>
+
+
+      <div class="ai-form">
+
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label data-i18n="room">
+              ประเภทห้อง
+            </label>
+
+            <select id="room">
+
+              <option value="Bedroom">
+                Bedroom / ห้องนอน
+              </option>
+
+              <option value="Living Room">
+                Living Room / ห้องนั่งเล่น
+              </option>
+
+              <option value="Workspace">
+                Workspace / โต๊ะทำงาน
+              </option>
+
+              <option value="Condo">
+                Condo / คอนโด
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label data-i18n="style">
+              สไตล์
+            </label>
+
+            <select id="style">
+
+              <option value="Minimal">
+                Minimal
+              </option>
+
+              <option value="Japandi">
+                Japandi
+              </option>
+
+              <option value="Modern">
+                Modern
+              </option>
+
+              <option value="Luxury">
+                Luxury
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label data-i18n="budget">
+              งบประมาณ
+            </label>
+
+            <select id="budget">
+
+              <option value="1000">
+                ฿1,000
+              </option>
+
+              <option value="3000">
+                ฿3,000
+              </option>
+
+              <option value="5000">
+                ฿5,000
+              </option>
+
+              <option value="10000">
+                ฿10,000+
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="btn ai-submit"
+          onclick="recommend()"
+          data-i18n="recommendBtn"
+        >
+          ✦ สร้างคำแนะนำ
+        </button>
+
+
+        <div id="aiResult" class="ai-result"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="contact" id="contact">
+
+  <div class="section-inner">
+
+    <div class="contact-box">
+
+      <div>
+
+        <div class="eyebrow">
+          <span></span>
+          GET IN TOUCH
+        </div>
+
+        <h2 data-i18n="contactTitle">
+          Let's style
+          your space.
+        </h2>
+
+        <p data-i18n="contactDesc">
+          หากต้องการสอบถามเพิ่มเติม
+          แนะนำเว็บไซต์ หรือพูดคุยเกี่ยวกับสไตล์การแต่งบ้าน
+          สามารถติดต่อเราได้
+        </p>
+
+      </div>
+
+
+      <div class="contact-card">
+
+        <div class="contact-row">
+
+          <span>BRAND</span>
+
+          <strong>
+            ÉVARYNX
+          </strong>
+
+        </div>
+
+
+        <div class="contact-row">
+
+          <span>LINE</span>
+
+          <strong>
+            @EVARYNX
+          </strong>
+
+        </div>
+
+
+        <div class="contact-row">
+
+          <span>PROJECT</span>
+
+          <strong>
+            AI Home Styling
+          </strong>
+
+        </div>
+
+
+        <div class="contact-row">
+
+          <span>STATUS</span>
+
+          <strong>
+            Improving
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <div>
+
+        <div class="footer-logo">
+          ÉVARYNX
+        </div>
+
+        <div class="footer-tagline">
+          Intelligent spaces. Distinctive living.
+        </div>
+
+      </div>
+
+      <div>
+        <a
+          href="#home"
+          class="btn btn-light"
+          style="color:#fff;border-color:#555;"
+        >
+          Back to top ↑
+        </a>
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 ÉVARYNX
+      </span>
+
+      <span>
+        AI HOME STYLING ASSISTANT
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+</div>
+
+
+<!-- =========================
+     ADMIN MODAL
+========================= -->
+
+<div class="modal" id="adminModal">
+
+  <div class="modal-box">
+
+    <button
+      class="close-modal"
+      onclick="closeAdmin()"
+    >
+      ×
+    </button>
+
+
+    <div class="modal-title">
+      ÉVARYNX ADMIN
+    </div>
+
+
+    <div class="login-area" id="loginArea">
+
+      <p style="color:#777;font-size:13px;margin-bottom:20px;">
+        เข้าสู่ระบบผู้ดูแลเพื่อจัดการสินค้า
+      </p>
+
+      <input
+        type="password"
+        id="adminPassword"
+        placeholder="Admin password"
+      >
+
+      <button
+        class="btn btn-dark"
+        style="width:100%;"
+        onclick="loginAdmin()"
+      >
+        เข้าสู่ระบบ
+      </button>
+
+    </div>
+
+
+    <div class="admin-panel" id="adminPanel">
+
+      <div class="admin-form">
+
+        <input
+          id="pName"
+          placeholder="ชื่อสินค้า"
+        >
+
+        <input
+          id="pPrice"
+          type="number"
+          placeholder="ราคา"
+        >
+
+        <input
+          id="pStock"
+          type="number"
+          placeholder="จำนวนสต็อก"
+        >
+
+        <select id="pStyle">
+
+          <option value="Minimal">
+            Minimal
+          </option>
+
+          <option value="Japandi">
+            Japandi
+          </option>
+
+          <option value="Modern">
+            Modern
+          </option>
+
+          <option value="Luxury">
+            Luxury
+          </option>
+
+        </select>
+
+        <input
+          id="pImage"
+          class="full"
+          placeholder="Image URL"
+        >
+
+        <input
+          id="pShopee"
+          class="full"
+          placeholder="Shopee URL"
+        >
+
+        <textarea
+          id="pDescription"
+          class="full"
+          placeholder="คำอธิบายสินค้า"
+        ></textarea>
+
+      </div>
+
+
+      <button
+        class="btn btn-dark"
+        style="margin-top:18px;width:100%;"
+        onclick="addProduct()"
+      >
+        + เพิ่มสินค้า
+      </button>
+
+
+      <div
+        class="admin-list"
+        id="adminList"
+      ></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   BRAND DATA
+========================================= */
+
+const BRAND = "ÉVARYNX";
+
+
+/* =========================================
+   DEFAULT PRODUCTS
+========================================= */
+
+const defaultProducts = [
+
+  {
+    id:1,
+    name:"Luna Table Lamp",
+    price:890,
+    stock:12,
+    style:"Minimal",
+    image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=85",
+    shopee:"#",
+    description:"โคมไฟเรียบง่ายสำหรับสร้างบรรยากาศอบอุ่น"
+  },
+
+  {
+    id:2,
+    name:"Oak Side Table",
+    price:1490,
+    stock:8,
+    style:"Japandi",
+    image:"https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=900&q=85",
+    shopee:"#",
+    description:"โต๊ะข้างไม้โทนธรรมชาติสำหรับพื้นที่สบายตา"
+  },
+
+  {
+    id:3,
+    name:"Cloud Lounge Chair",
+    price:3290,
+    stock:5,
+    style:"Modern",
+    image:"https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=85",
+    shopee:"#",
+    description:"เก้าอี้ดีไซน์โมเดิร์นสำหรับมุมพักผ่อน"
+  },
+
+  {
+    id:4,
+    name:"Stone Decor Set",
+    price:790,
+    stock:20,
+    style:"Luxury",
+    image:"https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=85",
+    shopee:"#",
+    description:"ของตกแต่งโทนหินสำหรับเพิ่มความพรีเมียม"
+  }
+
+];
+
+
+/* =========================================
+   STORAGE
+========================================= */
+
+function getProducts(){
+
+  let products =
+    JSON.parse(
+      localStorage.getItem("evarynx_products")
+    );
+
+  if(!products){
+
+    products = defaultProducts;
+
+    localStorage.setItem(
+      "evarynx_products",
+      JSON.stringify(products)
+    );
+
+  }
+
+  return products;
+}
+
+
+function saveProducts(products){
+
+  localStorage.setItem(
+    "evarynx_products",
+    JSON.stringify(products)
+  );
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================
+   RENDER PRODUCTS
+========================================= */
+
+function renderProducts(){
+
+  const grid =
+    document.getElementById("productGrid");
+
+  const products = getProducts();
+
+  if(!products.length){
+
+    grid.innerHTML = `
+      <div style="
+        grid-column:1/-1;
+        text-align:center;
+        padding:60px;
+        color:#777;
+      ">
+        ยังไม่มีสินค้า
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  grid.innerHTML = products.map(p => `
+
+    <article class="product">
+
+      <div class="product-image">
+
+        <img
+          src="${escapeHTML(p.image)}"
+          alt="${escapeHTML(p.name)}"
+          loading="lazy"
+          onerror="this.src='https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=85'"
+        >
+
+      </div>
+
+
+      <div class="product-info">
+
+        <div class="product-style">
+          ${escapeHTML(p.style)}
+        </div>
+
+        <div class="product-name">
+          ${escapeHTML(p.name)}
+        </div>
+
+        <div class="product-description">
+          ${escapeHTML(p.description)}
+        </div>
+
+
+        <div class="product-bottom">
+
+          <div>
+
+            <div class="price">
+              ฿${Number(p.price).toLocaleString()}
+            </div>
+
+            <div class="stock">
+              ${p.stock > 0
+                ? `เหลือ ${p.stock} ชิ้น`
+                : "สินค้าหมด"}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="btn btn-dark shop-btn"
+          onclick="openShopee('${encodeURIComponent(p.shopee || "#")}')"
+          ${p.stock <= 0 ? "disabled" : ""}
+        >
+          ดูบน Shopee ↗
+        </button>
+
+      </div>
+
+    </article>
+
+  `).join("");
+
+}
+
+
+/* =========================================
+   SHOPEE
+========================================= */
+
+function openShopee(encoded){
+
+  const url =
+    decodeURIComponent(encoded);
+
+  if(!url || url === "#"){
+
+    alert("ยังไม่ได้ใส่ลิงก์สินค้า");
+
+    return;
+
+  }
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+/* =========================================
+   AI RECOMMENDATION
+========================================= */
+
+function recommend(){
+
+  const room =
+    document.getElementById("room").value;
+
+  const style =
+    document.getElementById("style").value;
+
+  const budget =
+    Number(
+      document.getElementById("budget").value
+    );
+
+  const result =
+    document.getElementById("aiResult");
+
+
+  let text = "";
+
+
+  if(style === "Minimal"){
+
+    text = `
+      <strong>ÉVARYNX AI — Minimal Direction</strong><br><br>
+
+      สำหรับ ${room}
+      เราแนะนำโทนสีขาว ครีม เทาอ่อน
+      และเลือกเฟอร์นิเจอร์ที่มีเส้นสายเรียบง่าย
+      ลดของตกแต่งที่ไม่จำเป็น
+
+      <br><br>
+
+      งบประมาณประมาณ ฿${budget.toLocaleString()}
+      สามารถเริ่มจากโคมไฟ โต๊ะข้าง
+      และของตกแต่งขนาดเล็กก่อน
+    `;
+
+  }
+
+  else if(style === "Japandi"){
+
+    text = `
+      <strong>ÉVARYNX AI — Japandi Direction</strong><br><br>
+
+      สำหรับ ${room}
+      ให้เน้นวัสดุไม้ โทนเบจ ครีม
+      และ texture ธรรมชาติ
+      เพื่อสร้างความอบอุ่นและสงบ
+
+      <br><br>
+
+      ภายในงบประมาณ ฿${budget.toLocaleString()}
+      แนะนำเริ่มจากเฟอร์นิเจอร์ไม้
+      และเพิ่มต้นไม้หรือของตกแต่งจากธรรมชาติ
+    `;
+
+  }
+
+  else if(style === "Modern"){
+
+    text = `
+      <strong>ÉVARYNX AI — Modern Direction</strong><br><br>
+
+      สำหรับ ${room}
+      ให้ใช้สีดำ ขาว เทา
+      ผสมวัสดุโลหะหรือกระจก
+      เพื่อสร้างความคมและทันสมัย
+
+      <br><br>
+
+      งบประมาณ ฿${budget.toLocaleString()}
+      สามารถแบ่งเป็นชิ้นหลักหนึ่งชิ้น
+      แล้วใช้ของตกแต่งเรียบง่ายเป็นตัวเสริม
+    `;
+
+  }
+
+  else{
+
+    text = `
+      <strong>ÉVARYNX AI — Luxury Direction</strong><br><br>
+
+      สำหรับ ${room}
+      แนะนำโทนครีม น้ำตาลเข้ม ดำ
+      พร้อมวัสดุที่มี texture เช่น หิน
+      ไม้ หรือโลหะ
+
+      <br><br>
+
+      ด้วยงบประมาณ ฿${budget.toLocaleString()}
+      ควรเลือกไอเทมเด่น 1–2 ชิ้น
+      แทนการใส่ของตกแต่งจำนวนมาก
+    `;
+
+  }
+
+
+  result.innerHTML = text;
+
+  result.classList.add("show");
+
+  result.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
+}
+
+
+/* =========================================
+   SELECT STYLE
+========================================= */
+
+function selectStyle(style){
+
+  document.getElementById("style").value =
+    style === "Modern"
+      ? "Modern"
+      : style === "Japandi"
+      ? "Japandi"
+      : "Minimal";
+
+  document
+    .getElementById("ai")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+function toggleMenu(){
+
+  document
+    .getElementById("navLinks")
+    .classList.toggle("open");
+
+}
+
+
+/* =========================================
+   HEADER SCROLL
+========================================= */
+
+window.addEventListener("scroll",()=>{
+
+  const header =
+    document.getElementById("header");
+
+  if(window.scrollY > 30){
+
+    header.classList.add("scrolled");
+
+  }else{
+
+    header.classList.remove("scrolled");
+
+  }
+
+});
+
+
+/* =========================================
+   ADMIN
+========================================= */
+
+function openAdmin(){
+
+  document
+    .getElementById("adminModal")
+    .classList.add("show");
+
+}
+
+
+function closeAdmin(){
+
+  document
+    .getElementById("adminModal")
+    .classList.remove("show");
+
+}
+
+
+function loginAdmin(){
+
+  const password =
+    document.getElementById("adminPassword").value;
+
+
+  if(password !== "1309"){
+
+    alert("รหัสผ่านไม่ถูกต้อง");
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("loginArea")
+    .style.display = "none";
+
+  document
+    .getElementById("adminPanel")
+    .style.display = "block";
+
+  renderAdmin();
+
+}
+
+
+/* =========================================
+   ADD PRODUCT
+========================================= */
+
+function addProduct(){
+
+  const name =
+    document.getElementById("pName").value.trim();
+
+  const price =
+    Number(
+      document.getElementById("pPrice").value
+    );
+
+  const stock =
+    Number(
+      document.getElementById("pStock").value
+    );
+
+  const style =
+    document.getElementById("pStyle").value;
+
+  const image =
+    document.getElementById("pImage").value.trim();
+
+  const shopee =
+    document.getElementById("pShopee").value.trim();
+
+  const description =
+    document
+      .getElementById("pDescription")
+      .value.trim();
+
+
+  if(!name || !price || !image){
+
+    alert("กรุณากรอกชื่อสินค้า ราคา และรูปภาพ");
+
+    return;
+
+  }
+
+
+  const products =
+    getProducts();
+
+
+  products.unshift({
+
+    id:Date.now(),
+
+    name,
+
+    price,
+
+    stock,
+
+    style,
+
+    image,
+
+    shopee,
+
+    description
+
+  });
+
+
+  saveProducts(products);
+
+  renderProducts();
+
+  renderAdmin();
+
+
+  document
+    .getElementById("pName").value = "";
+
+  document
+    .getElementById("pPrice").value = "";
+
+  document
+    .getElementById("pStock").value = "";
+
+  document
+    .getElementById("pImage").value = "";
+
+  document
+    .getElementById("pShopee").value = "";
+
+  document
+    .getElementById("pDescription").value = "";
+
+
+  alert("เพิ่มสินค้าเรียบร้อยแล้ว");
+
+}
+
+
+/* =========================================
+   ADMIN PRODUCT LIST
+========================================= */
+
+function renderAdmin(){
+
+  const list =
+    document.getElementById("adminList");
+
+  const products =
+    getProducts();
+
+
+  list.innerHTML = products.map(p => `
+
+    <div class="admin-item">
+
+      <div>
+
+        <strong>
+          ${escapeHTML(p.name)}
+        </strong>
+
+        <div style="
+          color:#777;
+          font-size:11px;
+          margin-top:5px;
+        ">
+
+          ฿${Number(p.price).toLocaleString()}
+          · Stock ${p.stock}
+          · ${escapeHTML(p.style)}
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="delete-btn"
+        onclick="deleteProduct(${p.id})"
+      >
+        ลบ
+      </button>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* =========================================
+   DELETE PRODUCT
+========================================= */
+
+function deleteProduct(id){
+
+  if(!confirm("ต้องการลบสินค้านี้หรือไม่?")){
+
+    return;
+
+  }
+
+
+  let products =
+    getProducts();
+
+
+  products =
+    products.filter(
+      p => p.id !== id
+    );
+
+
+  saveProducts(products);
+
+  renderProducts();
+
+  renderAdmin();
+
+}
+
+
+/* =========================================
+   LANGUAGE
+========================================= */
+
+const translations = {
+
+  th:{
+
+    home:"หน้าแรก",
+
+    products:"สินค้า",
+
+    styles:"สไตล์",
+
+    ai:"AI Styling",
+
+    contact:"ติดต่อ",
+
+    heroDesc:
+      "ÉVARYNX ช่วยคุณค้นหาสไตล์การแต่งบ้าน และเลือกไอเทมที่เข้ากับพื้นที่ งบประมาณ และความชอบของคุณ",
+
+    startAI:
+      "เริ่มใช้ AI Styling",
+
+    explore:
+      "ดูสินค้า",
+
+    notice:
+      "เว็บไซต์อยู่ระหว่างการพัฒนาและปรับปรุง แต่สามารถใช้งานได้ตามปกติ",
+
+    productsTitle:
+      "Selected for your space.",
+
+    productsDesc:
+      "ไอเทมที่คัดเลือกเพื่อช่วยเติมบรรยากาศให้พื้นที่ของคุณมีเอกลักษณ์มากขึ้น",
+
+    styleTitle:
+      "Find your atmosphere.",
+
+    styleDesc:
+      "เลือกแนวทางที่ใกล้เคียงกับตัวคุณ แล้วให้ ÉVARYNX ช่วยต่อยอด",
+
+    aiTitle:
+      "Your space. Your rules.",
+
+    aiDesc:
+      "บอกข้อมูลเกี่ยวกับพื้นที่ของคุณ แล้วระบบจะช่วยสร้างแนวทางการแต่งห้องให้เหมาะกับคุณ",
+
+    room:
+      "ประเภทห้อง",
+
+    style:
+      "สไตล์",
+
+    budget:
+      "งบประมาณ",
+
+    recommendBtn:
+      "✦ สร้างคำแนะนำ",
+
+    contactTitle:
+      "Let's style your space.",
+
+    contactDesc:
+      "หากต้องการสอบถามเพิ่มเติม แนะนำเว็บไซต์ หรือพูดคุยเกี่ยวกับสไตล์การแต่งบ้าน สามารถติดต่อเราได้"
+
+  },
+
+
+  en:{
+
+    home:"Home",
+
+    products:"Products",
+
+    styles:"Styles",
+
+    ai:"AI Styling",
+
+    contact:"Contact",
+
+    heroDesc:
+      "ÉVARYNX helps you discover interior styles and find pieces that match your space, budget and personality.",
+
+    startAI:
+      "Start AI Styling",
+
+    explore:
+      "Explore Products",
+
+    notice:
+      "This website is still being improved, but it is available to use.",
+
+    productsTitle:
+      "Selected for your space.",
+
+    productsDesc:
+      "Curated objects designed to add character and atmosphere to your space.",
+
+    styleTitle:
+      "Find your atmosphere.",
+
+    styleDesc:
+      "Choose a direction that feels like you and let ÉVARYNX take it further.",
+
+    aiTitle:
+      "Your space. Your rules.",
+
+    aiDesc:
+      "Tell us about your room and ÉVARYNX will create a personalized styling direction.",
+
+    room:
+      "Room",
+
+    style:
+      "Style",
+
+    budget:
+      "Budget",
+
+    recommendBtn:
+      "✦ Generate Recommendation",
+
+    contactTitle:
+      "Let's style your space.",
+
+    contactDesc:
+      "Have a question or want to talk about interior styling? Get in touch with ÉVARYNX."
+
+  },
+
+
+  es:{
+
+    home:"Inicio",
+
+    products:"Productos",
+
+    styles:"Estilos",
+
+    ai:"AI Styling",
+
+    contact:"Contacto",
+
+    heroDesc:
+      "ÉVARYNX te ayuda a descubrir estilos de interior y encontrar piezas que combinen con tu espacio, presupuesto y personalidad.",
+
+    startAI:
+      "Comenzar AI Styling",
+
+    explore:
+      "Ver productos",
+
+    notice:
+      "Este sitio web todavía está en desarrollo, pero puede utilizarse normalmente.",
+
+    productsTitle:
+      "Selected for your space.",
+
+    productsDesc:
+      "Objetos seleccionados para añadir carácter y ambiente a tu espacio.",
+
+    styleTitle:
+      "Find your atmosphere.",
+
+    styleDesc:
+      "Elige un estilo que te represente y deja que ÉVARYNX lo lleve más lejos.",
+
+    aiTitle:
+      "Your space. Your rules.",
+
+    aiDesc:
+      "Cuéntanos sobre tu habitación y ÉVARYNX creará una dirección de diseño personalizada.",
+
+    room:
+      "Habitación",
+
+    style:
+      "Estilo",
+
+    budget:
+      "Presupuesto",
+
+    recommendBtn:
+      "✦ Crear recomendación",
+
+    contactTitle:
+      "Let's style your space.",
+
+    contactDesc:
+      "¿Tienes alguna pregunta sobre diseño de interiores? Contacta con ÉVARYNX."
+
+  },
+
+
+  zh:{
+
+    home:"首页",
+
+    products:"产品",
+
+    styles:"风格",
+
+    ai:"AI 设计",
+
+    contact:"联系我们",
+
+    heroDesc:
+      "ÉVARYNX 帮助你发现适合自己的家居风格，并根据空间、预算和喜好选择家具与装饰。",
+
+    startAI:
+      "开始 AI 设计",
+
+    explore:
+      "浏览产品",
+
+    notice:
+      "网站目前仍在持续优化中，但已经可以正常使用。",
+
+    productsTitle:
+      "Selected for your space.",
+
+    productsDesc:
+      "精选家居单品，为你的空间增添个性与氛围。",
+
+    styleTitle:
+      "Find your atmosphere.",
+
+    styleDesc:
+      "选择最符合你的风格，让 ÉVARYNX 帮你进一步打造空间。",
+
+    aiTitle:
+      "Your space. Your rules.",
+
+    aiDesc:
+      "告诉我们你的房间信息，ÉVARYNX 将为你生成个性化设计方向。",
+
+    room:
+      "房间",
+
+    style:
+      "风格",
+
+    budget:
+      "预算",
+
+    recommendBtn:
+      "✦ 生成推荐",
+
+    contactTitle:
+      "Let's style your space.",
+
+    contactDesc:
+      "如果你想了解更多家居设计信息，可以联系 ÉVARYNX。"
+
+  }
+
+};
+
+
+/* =========================================
+   CHANGE LANGUAGE
+========================================= */
+
+function changeLang(lang){
+
+  const data =
+    translations[lang];
+
+  if(!data) return;
+
+
+  document
+    .querySelectorAll("[data-i18n]")
+    .forEach(el => {
+
+      const key =
+        el.getAttribute("data-i18n");
+
+      if(data[key]){
+
+        el.textContent =
+          data[key];
+
+      }
+
+    });
+
+
+  localStorage.setItem(
+    "evarynx_lang",
+    lang
+  );
+
+}
+
+
+/* =========================================
+   INIT LANGUAGE
+========================================= */
+
+function initLanguage(){
+
+  const lang =
+    localStorage.getItem(
+      "evarynx_lang"
+    ) || "th";
+
+
+  document
+    .getElementById("language")
+    .value = lang;
+
+
+  changeLang(lang);
+
+}
+
+
+/* =========================================
+   ADMIN ACCESS
+   Desktop:
+   Ctrl + Shift + A
+
+   Mobile:
+   5 taps on logo
+========================================= */
+
+let logoTapCount = 0;
+
+document
+  .querySelector(".logo")
+  .addEventListener("click",function(e){
+
+    logoTapCount++;
+
+    if(logoTapCount >= 5){
+
+      logoTapCount = 0;
+
+      openAdmin();
+
+    }
+
+    setTimeout(()=>{
+      logoTapCount = 0;
+    },1800);
+
+  });
+
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(
+      e.ctrlKey &&
+      e.shiftKey &&
+      e.key.toLowerCase() === "a"
+    ){
+
+      openAdmin();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   CLOSE MODAL OUTSIDE
+========================================= */
+
+document
+  .getElementById("adminModal")
+  .addEventListener("click",function(e){
+
+    if(e.target === this){
+
+      closeAdmin();
+
+    }
+
+  });
+
+
+/* =========================================
+   INTRO
+========================================= */
+
+window.addEventListener("load",()=>{
+
+  renderProducts();
+
+  initLanguage();
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("introLogo")
+      .classList.add("zoom");
+
+  },2500);
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("intro")
+      .classList.add("hide");
+
+
+    document
+      .getElementById("site")
+      .classList.add("ready");
+
+  },3500);
+
+});
+
+
+/* =========================================
+   ADMIN PASSWORD ENTER
+========================================= */
+
+document
+  .getElementById("adminPassword")
+  .addEventListener("keydown",function(e){
+
+    if(e.key === "Enter"){
+
+      loginAdmin();
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
